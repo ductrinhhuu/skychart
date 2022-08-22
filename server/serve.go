@@ -16,9 +16,11 @@ func Serve(ctx context.Context, registryUrl, listenAddr, updateFreq string) erro
 	l := log.Default()
 	// Set up the handler and pull in all data
 	handler := NewHandler(registryUrl, l)
-	if err := handler.Pull(ctx); err != nil {
-		return err
-	}
+	go func() {
+		if err := handler.Pull(ctx); err != nil {
+			l.Print(err)
+		}
+	}()
 
 	// create a router to handle inbound requests
 	router := mux.NewRouter()

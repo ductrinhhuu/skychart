@@ -1,0 +1,2 @@
+registry_url = "cosmos/chain-registry"
+port = ":8082"

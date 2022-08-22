@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cmwaters/skychart/types"
+	"skychart/types"
 )
 
 // Pull requests all registry information from a github repo and updates the
@@ -33,7 +33,7 @@ func (h *Handler) Pull(ctx context.Context) error {
 	}
 
 	// update chains
-	if err := h.getChains(); err != nil {
+	if err = h.getChains(); err != nil {
 		return err
 	}
 
@@ -42,10 +42,10 @@ func (h *Handler) Pull(ctx context.Context) error {
 	// to see if the file had actually changed since the last time
 	// it was pulled
 	for _, chain := range h.chains {
-		if err := h.getChain(chain); err != nil {
+		if err = h.getChain(chain); err != nil {
 			return err
 		}
-		if err := h.getAssetList(chain); err != nil {
+		if err = h.getAssetList(chain); err != nil {
 			return err
 		}
 	}
@@ -53,7 +53,7 @@ func (h *Handler) Pull(ctx context.Context) error {
 	// Index assets by display
 	assets := make([]string, 0)
 	for _, assetList := range h.assetList {
-		name := h.chainById[assetList.ChainID]
+		name := h.chainById[assetList.ChainName]
 		for _, asset := range assetList.Assets {
 			assets = append(assets, asset.Display)
 			h.chainByAsset[asset.Display] = name
